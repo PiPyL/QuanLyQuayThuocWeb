@@ -1,6 +1,6 @@
 // src/firebase.js
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
+import { initializeApp } from 'firebase/app'
+import { getDatabase } from 'firebase/database'
 
 // const firebaseConfig = {
 //   apiKey: "AIzaSyDQWy74pyJFlvimJr9j9B2FCKvoclO8KEY",
@@ -15,18 +15,17 @@ import { getDatabase } from "firebase/database";
 // };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBt8qsZwLD4a80zY5GVuNDzYQGb0vEEhE8",
-  authDomain: "quanlyquaythuoctest.firebaseapp.com",
-  databaseURL:
-    "https://quanlyquaythuoctest-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "quanlyquaythuoctest",
-  storageBucket: "quanlyquaythuoctest.appspot.com",
-  messagingSenderId: "996406638516",
-  appId: "1:996406638516:web:8f0c480c5bd04dc1af24e1",
-};
+    apiKey: 'AIzaSyBt8qsZwLD4a80zY5GVuNDzYQGb0vEEhE8',
+    authDomain: 'quanlyquaythuoctest.firebaseapp.com',
+    databaseURL: 'https://quanlyquaythuoctest-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'quanlyquaythuoctest',
+    storageBucket: 'quanlyquaythuoctest.appspot.com',
+    messagingSenderId: '996406638516',
+    appId: '1:996406638516:web:8f0c480c5bd04dc1af24e1'
+}
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
-const database = getDatabase(app);
+const database = getDatabase(app)
 
-export { database };
+export { database }
