@@ -26,6 +26,7 @@ const SearchMedicineView = () => {
                 dataSource={medications}
                 renderItem={(item, index) => <div>{item?.name}</div>}
                 style={{ height: '400px', overflowY: 'auto', marginTop: 12 }}
+                rowKey={(item) => item?.id}
             />
         </div>
     )
