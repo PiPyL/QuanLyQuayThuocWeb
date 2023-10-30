@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { database } from './firebase.js'
 import { getDatabase, ref, onValue } from 'firebase/database'
-import { Col, Input, Row } from 'antd'
+import { Button, Col, Input, Row } from 'antd'
 import AddMedicineView from './component/AddMedicineView.js'
 import UpdateMedicineView from './component/UpdateMedicineView.js'
 import Utils from './controler/Utils.js'
+import AppManager from './controler/AppManager.js'
+import MedicationModel from './models/MedicationModel.js'
+import { useNavigate } from 'react-router-dom'
 
 const App = () => {
     const [data, setData] = useState([])
     const [dataShow, setDataShow] = useState([])
     const [medicineSelected, setMedicineSelected] = useState(null)
     const db = getDatabase()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const starCountRef = ref(db, 'danhSachThuoc')
@@ -21,6 +25,8 @@ const App = () => {
             )
             setData(data)
             setDataShow(data)
+            const models = Object.values(data).map((e) => new MedicationModel(e))
+            AppManager.shared.medications = models
         })
     }, [])
 
@@ -43,10 +49,17 @@ const App = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1>
+            {/* <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1> */}
             <Row style={{}}>
                 <Col style={{ flex: 1 }} />
                 <Col style={{ width: 300 }}>
+                    <Button
+                        onClick={() => {
+                            navigate('prescription')
+                        }}
+                    >
+                        Tạo đơn thuốc
+                    </Button>
                     <Row style={{ marginBottom: 8 }}>
                         <Input placeholder='Nhập để tìm kiếm...' onChange={handleInputSearch} />
                     </Row>
