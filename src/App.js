@@ -4,6 +4,7 @@ import { getDatabase, ref, onValue } from 'firebase/database'
 import { Col, Input, Row } from 'antd'
 import AddMedicineView from './component/AddMedicineView.js'
 import UpdateMedicineView from './component/UpdateMedicineView.js'
+import Utils from './controler/Utils.js'
 
 const App = () => {
     const [data, setData] = useState([])
@@ -25,7 +26,7 @@ const App = () => {
 
     const getPrice = (info) => {
         const prices = Object.values(info?.gia ?? [])
-        return prices[prices.length - 1]
+        return Utils.formatVND(prices[prices.length - 1])
     }
 
     const handleInputSearch = (e) => {
@@ -43,15 +44,20 @@ const App = () => {
     return (
         <div>
             <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1>
-            <Row>
-                <Col>
-                    <Row>
+            <Row style={{}}>
+                <Col style={{ flex: 1 }} />
+                <Col style={{ width: 300 }}>
+                    <Row style={{ marginBottom: 8 }}>
                         <Input placeholder='Nhập để tìm kiếm...' onChange={handleInputSearch} />
                     </Row>
                     {dataShow.map((e) => (
                         <Row
                             onClick={() => {
                                 setMedicineSelected(e)
+                            }}
+                            style={{
+                                height: 30,
+                                alignItems: 'center'
                             }}
                         >
                             <Col
@@ -61,14 +67,15 @@ const App = () => {
                             >
                                 {e?.tenThuoc}
                             </Col>
-                            <Col>{getPrice(e)}</Col>
+                            <Col style={{}}>{getPrice(e)}</Col>
                         </Row>
                     ))}
                 </Col>
-                <Col style={{ marginLeft: 16 }}>
+                <Col style={{ width: 300, marginLeft: 20 }}>
                     <AddMedicineView />
                     {medicineSelected && <UpdateMedicineView info={medicineSelected} />}
                 </Col>
+                <Col style={{ flex: 1 }} />
             </Row>
         </div>
     )

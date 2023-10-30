@@ -42,15 +42,16 @@ const AddMedicineView = () => {
     }
 
     return (
-        <Col>
-            <p>Thêm thuốc mới</p>
+        <Col align='middle'>
+            <p>THÊM THUỐC</p>
             <Input value={name} placeholder='Tên thuốc' onChange={(e) => setName(e.target.value)} />
             <Input
                 value={price}
                 placeholder='Giá thuốc'
                 onChange={(e) => setPrice(e.target.value)}
+                style={{ marginTop: 8 }}
             />
-            <Button onClick={handleAddMedicine} style={{ color: 'red ' }}>
+            <Button onClick={handleAddMedicine} style={{ color: 'red ', marginTop: 8 }}>
                 Thêm
             </Button>
         </Col>

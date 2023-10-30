@@ -2,6 +2,7 @@ import { Button, Col, Input, Row } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { getDatabase, push, ref, set, update } from 'firebase/database'
 import moment from 'moment'
+import Utils from '../controler/Utils'
 
 const UpdateMedicineView = ({ info }) => {
     const [name, setName] = useState('')
@@ -50,14 +51,18 @@ const UpdateMedicineView = ({ info }) => {
     }
 
     return (
-        <Col>
-            <p>Cập nhật</p>
+        <Col align='middle' style={{ marginTop: 20 }}>
+            <p>CẬP NHẬT THUỐC</p>
             <Input value={name} placeholder='Tên thuốc' onChange={(e) => setName(e.target.value)} />
             <Input
                 value={price}
                 placeholder='Giá thuốc'
                 onChange={(e) => setPrice(e.target.value)}
+                style={{ marginTop: 8 }}
             />
+            <Button onClick={handleEditMedication} style={{ color: 'red', marginTop: 8 }}>
+                Cập nhật
+            </Button>
             <p>Lịch sử giá</p>
             {Object.values(info?.gia) > 0 &&
                 Object.values(info?.gia).map((e, index) => {
@@ -67,13 +72,10 @@ const UpdateMedicineView = ({ info }) => {
                                 'DD/MM/yyyy'
                             )}
                             {' - '}
-                            {e}
+                            {Utils.formatVND(e)}
                         </Row>
                     )
                 })}
-            <Button onClick={handleEditMedication} style={{ color: 'red' }}>
-                Cập nhật
-            </Button>
         </Col>
     )
 }
