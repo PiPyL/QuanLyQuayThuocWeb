@@ -1,5 +1,5 @@
 import { Col, Input, Row, Typography } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, onInputedPrice }) => {
     const [quantity, setQuantity] = useState(item?.quantity ?? '')
@@ -19,6 +19,11 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
         return value
     }
 
+    useEffect(() => {
+        setQuantity(item?.quantity)
+        setPrice(item?.price)
+    }, [item])
+
     return (
         <Col style={{ width: 200, marginLeft: 16 }}>
             <Row onClick={onSelectMedication} style={{ alignItems: 'center' }}>
@@ -34,7 +39,7 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
                     readOnly={true}
                 />
             </Row>
-            <Row style={{}}>
+            <Row style={{ marginTop: 8 }}>
                 <Input
                     style={{
                         ...styles.input,
@@ -65,6 +70,7 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
                 />
             </Row>
             <div style={{ marginTop: '6px' }}>{getProfit()}</div>
+            <Row style={{ height: 1, background: '#c5c6c7', marginBottom: 10, marginTop: 4 }} />
         </Col>
     )
 }

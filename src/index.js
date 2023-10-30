@@ -5,6 +5,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import CreatePrescriptionScreen from './component/CreatePrescriptionScreen'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import PrescriptionsListScreen from './component/PrescriptionsListScreen'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -13,6 +14,7 @@ root.render(
             <Routes>
                 <Route path='/' element={<App />} />
                 <Route path='/prescription' element={<CreatePrescriptionScreen />} />
+                <Route path='/prescription-list' element={<PrescriptionsListScreen />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

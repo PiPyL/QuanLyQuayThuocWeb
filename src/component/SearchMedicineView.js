@@ -2,7 +2,7 @@ import { Input, List } from 'antd'
 import React, { useEffect, useState } from 'react'
 import AppManager from '../controler/AppManager'
 
-const SearchMedicineView = () => {
+const SearchMedicineView = ({ didSelectMedicine }) => {
     const [medications, setMedications] = useState([])
 
     const handleSearchMedicines = (e) => {
@@ -24,7 +24,9 @@ const SearchMedicineView = () => {
             <Input placeholder='Nhập tên thuốc...' onChange={handleSearchMedicines} />
             <List
                 dataSource={medications}
-                renderItem={(item, index) => <div>{item?.name}</div>}
+                renderItem={(item, index) => (
+                    <div onClick={() => didSelectMedicine(item)}>{item?.name}</div>
+                )}
                 style={{ height: '400px', overflowY: 'auto', marginTop: 12 }}
                 rowKey={(item) => item?.id}
             />

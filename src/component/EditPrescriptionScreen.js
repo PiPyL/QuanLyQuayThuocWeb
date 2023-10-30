@@ -3,10 +3,12 @@ import MediacationItem from './MediacationItem'
 import { Button, List, Modal, Row } from 'antd'
 import MedicationInfoModel from '../models/MedicationInfoModel'
 import SearchMedicineView from './SearchMedicineView'
-import { getDatabase, set, ref, push } from 'firebase/database'
+import { getDatabase, set, ref, push, get, update } from 'firebase/database'
 import Utils from '../controler/Utils'
+import AppManager from '../controler/AppManager'
+import MedicationModel from '../models/MedicationModel'
 
-const CreatePrescriptionScreen = () => {
+const EditPrescriptionScreen = ({ item }) => {
     const [medicationsInfo, setMedicationsInfo] = useState([])
     const [indexSelected, setIndexSelected] = useState(null)
     const [visible, setVisible] = useState(false)
@@ -22,7 +24,7 @@ const CreatePrescriptionScreen = () => {
         return `${Utils.formatVND(total)}`
     }
 
-    const createPrescription = () => {
+    const updatePrescription = () => {
         let arr = medicationsInfo.filter((e) => {
             return (
                 e?.name != null &&
@@ -50,29 +52,71 @@ const CreatePrescriptionScreen = () => {
 
         const db = getDatabase()
 
-        const databaseRef = ref(db, 'donThuoc')
-        const newRef = push(databaseRef)
+        const databaseRef = ref(db, 'donThuoc/' + item?.id)
+        // const newRef = push(databaseRef)
 
         let data = {
-            thoiGianTao: new Date().getTime(),
-            danhSachThuoc: medications,
-            id: newRef.key
+            // thoiGianTao: new Date().getTime(),
+            danhSachThuoc: medications
+            // id: newRef.key
         }
 
-        set(newRef, data)
+        update(databaseRef, data)
             .then(setDefaultData)
             .catch((err) => console.log(err))
     }
 
-    const setDefaultData = () => {
-        console.log('reset data')
-        setMedicationsInfo([])
-        let arr = []
-        for (let i = 1; i <= 50; i++) {
-            const model = new MedicationInfoModel({})
-            arr.push(model)
+    const getMedication = (id) => {
+        const arr = AppManager.shared.medications.filter((e) => e?.id == id)
+        if (arr.length > 0) {
+            return arr[0]
         }
-        setMedicationsInfo([...arr])
+        return null
+    }
+
+    const setDefaultData = async () => {
+        console.log('reset data')
+        console.log(item)
+        // setMedicationsInfo([])
+        let arr = []
+
+        const list = Object.values(item?.danhSachThuoc ?? [])
+
+        const db = getDatabase()
+        const newRef = ref(db, '/danhSachThuoc')
+        if (AppManager.shared.medications.length == 0) {
+            const snapshot = await get(newRef)
+            let data = Object.values(snapshot.val() ?? [])
+            data = data.sort((a, b) =>
+                a?.tenThuoc.toLowerCase() > b?.tenThuoc.toLowerCase() ? 1 : -1
+            )
+            const models = Object.values(data).map((e) => new MedicationModel(e))
+            AppManager.shared.medications = models
+        }
+
+        list.forEach((e) => {
+            const model = new MedicationInfoModel({
+                price: Number(e?.giaBan),
+                id: e?.id,
+                quantity: e?.soLuong
+            })
+            const medication = getMedication(e?.id)
+            model.setMedication(medication)
+            arr.push(model)
+        })
+
+        for (let i = 1; i <= 100 - list.length; i++) {
+            arr.push(new MedicationInfoModel({}))
+        }
+
+        setMedicationsInfo(arr)
+
+        // let arr = []
+        // for (let i = 1; i <= 50; i++) {
+        //     const model = new MedicationInfoModel({})
+        //     arr.push(model)
+        // }
+        // setMedicationsInfo([...arr])
     }
 
     const onSelectMedication = (index) => {
@@ -114,11 +158,11 @@ const CreatePrescriptionScreen = () => {
 
     useEffect(() => {
         setDefaultData()
-    }, [])
+    }, [item])
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>TẠO ĐƠN</h1>
+            <h1 style={{ textAlign: 'center' }}>ĐƠN THUỐC</h1>
             <List
                 dataSource={medicationsInfo}
                 renderItem={(item, index) => (
@@ -136,12 +180,8 @@ const CreatePrescriptionScreen = () => {
             <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
                 Tổng tiền lời: <p style={{ marginLeft: 8 }}>{getTotalProfit()}</p>
             </Row>
-            <Button
-                type='primary'
-                onClick={createPrescription}
-                style={{ display: 'block', margin: '0 auto', width: 100, marginBottom: 20 }}
-            >
-                Tạo đơn
+            <Button type='primary' onClick={updatePrescription}>
+                Cập nhật đơn
             </Button>
             <Modal
                 title='Chọn thuốc'
@@ -158,4 +198,4 @@ const CreatePrescriptionScreen = () => {
     )
 }
 
-export default CreatePrescriptionScreen
+export default EditPrescriptionScreen
