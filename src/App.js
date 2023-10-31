@@ -53,13 +53,22 @@ const App = () => {
             <Row style={{}}>
                 <Col style={{ flex: 1 }} />
                 <Col style={{ width: 300 }}>
-                    <Button
-                        onClick={() => {
-                            navigate('prescription')
-                        }}
-                    >
-                        Tạo đơn thuốc
-                    </Button>
+                    <Row>
+                        <Button
+                            onClick={() => {
+                                navigate('prescription')
+                            }}
+                        >
+                            Tạo đơn thuốc
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                navigate('prescription-list')
+                            }}
+                        >
+                            Danh sách đơn thuốc
+                        </Button>
+                    </Row>
                     <Row style={{ marginBottom: 8 }}>
                         <Input placeholder='Nhập để tìm kiếm...' onChange={handleInputSearch} />
                     </Row>

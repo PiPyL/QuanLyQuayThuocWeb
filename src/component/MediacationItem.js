@@ -1,5 +1,6 @@
 import { Col, Input, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
+import Utils from '../controler/Utils'
 
 const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, onInputedPrice }) => {
     const [quantity, setQuantity] = useState(item?.quantity ?? '')
@@ -11,12 +12,7 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
             profit = item?.price * item?.quantity - item?.medication?.price * item?.quantity
         }
 
-        return `Tiền lời: ${formatVND(profit)}`
-    }
-
-    const formatVND = (value) => {
-        // You should implement this function to format the value as needed
-        return value
+        return profit
     }
 
     useEffect(() => {
@@ -69,7 +65,9 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
                     }}
                 />
             </Row>
-            <div style={{ marginTop: '6px' }}>{getProfit()}</div>
+            <div style={{ marginTop: '6px', color: getProfit() >= 0 ? 'green' : 'red' }}>
+                Tiền lời: {Utils.formatVND(getProfit())}
+            </div>
             <Row style={{ height: 1, background: '#c5c6c7', marginBottom: 10, marginTop: 4 }} />
         </Col>
     )

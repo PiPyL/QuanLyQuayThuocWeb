@@ -78,6 +78,15 @@ const PrescriptionsListScreen = () => {
     }, [])
 
     useEffect(() => {
+        if (prescriptionSelected != null) {
+            const a = allPrescriptions.find((e) => e?.id == prescriptionSelected?.id)
+            if (a) {
+                setPrescriptionSelected(a)
+            }
+        }
+    }, [allPrescriptions, prescriptionSelected])
+
+    useEffect(() => {
         let profit = 0
         let revenue = 0
 
@@ -109,7 +118,7 @@ const PrescriptionsListScreen = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1>
+            {/* <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1> */}
             <Row>
                 <Col>
                     <Row style={{ alignItems: 'center', marginBottom: 16 }}>

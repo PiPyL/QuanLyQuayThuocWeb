@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import MediacationItem from './MediacationItem'
-import { Button, List, Modal, Row } from 'antd'
+import { Button, Col, List, Modal, Row, Typography } from 'antd'
 import MedicationInfoModel from '../models/MedicationInfoModel'
 import SearchMedicineView from './SearchMedicineView'
 import { getDatabase, set, ref, push, get, update } from 'firebase/database'
 import Utils from '../controler/Utils'
 import AppManager from '../controler/AppManager'
 import MedicationModel from '../models/MedicationModel'
+import moment from 'moment'
 
 const EditPrescriptionScreen = ({ item }) => {
     const [medicationsInfo, setMedicationsInfo] = useState([])
@@ -53,12 +54,9 @@ const EditPrescriptionScreen = ({ item }) => {
         const db = getDatabase()
 
         const databaseRef = ref(db, 'donThuoc/' + item?.id)
-        // const newRef = push(databaseRef)
 
         let data = {
-            // thoiGianTao: new Date().getTime(),
             danhSachThuoc: medications
-            // id: newRef.key
         }
 
         update(databaseRef, data)
@@ -110,13 +108,6 @@ const EditPrescriptionScreen = ({ item }) => {
         }
 
         setMedicationsInfo(arr)
-
-        // let arr = []
-        // for (let i = 1; i <= 50; i++) {
-        //     const model = new MedicationInfoModel({})
-        //     arr.push(model)
-        // }
-        // setMedicationsInfo([...arr])
     }
 
     const onSelectMedication = (index) => {
@@ -162,7 +153,30 @@ const EditPrescriptionScreen = ({ item }) => {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>ĐƠN THUỐC</h1>
+            {/* <h1 style={{ textAlign: 'center' }}>ĐƠN THUỐC</h1> */}
+            <Row style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                <Col style={{ marginRight: 16 }}>
+                    <Typography style={{}}>
+                        Ngày tạo: {moment(new Date(item?.thoiGianTao)).format('HH:mm DD/MM/YYYY')}
+                    </Typography>
+                    <Row style={{ alignItems: 'center' }}>
+                        Tổng tiền lời:{' '}
+                        <Typography
+                            style={{
+                                marginLeft: 8,
+                                color: 'green',
+                                fontWeight: 'bold',
+                                marginRight: 12
+                            }}
+                        >
+                            {getTotalProfit()}
+                        </Typography>
+                    </Row>
+                </Col>
+                <Button type='primary' onClick={updatePrescription}>
+                    Cập nhật đơn
+                </Button>
+            </Row>
             <List
                 dataSource={medicationsInfo}
                 renderItem={(item, index) => (
@@ -174,15 +188,9 @@ const EditPrescriptionScreen = ({ item }) => {
                         onInputedPrice={(price) => onInputedPrice(price, index)}
                     />
                 )}
-                grid={{ column: 4 }}
-                style={{ width: 216 * 4 }}
+                grid={{ column: 3 }}
+                style={{ width: 216 * 3 }}
             />
-            <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
-                Tổng tiền lời: <p style={{ marginLeft: 8 }}>{getTotalProfit()}</p>
-            </Row>
-            <Button type='primary' onClick={updatePrescription}>
-                Cập nhật đơn
-            </Button>
             <Modal
                 title='Chọn thuốc'
                 open={visible}
