@@ -16,7 +16,7 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
     }
 
     useEffect(() => {
-        setQuantity(item?.quantity)
+        setQuantity(Number(item?.quantity))
         setPrice(item?.price)
     }, [item])
 

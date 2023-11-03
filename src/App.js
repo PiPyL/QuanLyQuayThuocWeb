@@ -23,16 +23,19 @@ const App = () => {
             data = data.sort((a, b) =>
                 a?.tenThuoc.toLowerCase() > b?.tenThuoc.toLowerCase() ? 1 : -1
             )
-            setData(data)
-            setDataShow(data)
+            // setData(data)
+            // setDataShow(data)
             const models = Object.values(data).map((e) => new MedicationModel(e))
             AppManager.shared.medications = models
+            setData(models)
+            setDataShow(models)
         })
     }, [])
 
     const getPrice = (info) => {
-        const prices = Object.values(info?.gia ?? [])
-        return Utils.formatVND(prices[prices.length - 1])
+        // const prices = Object.values(info?.pri ?? [])
+        // return Utils.formatVND(prices[prices.length - 1])
+        return Utils.formatVND(info?.price)
     }
 
     const handleInputSearch = (e) => {
@@ -42,7 +45,7 @@ const App = () => {
             return
         }
         const dataFilter = data.filter((thuoc) =>
-            thuoc?.tenThuoc?.toLowerCase().includes(text.toLowerCase())
+            thuoc?.name?.toLowerCase().includes(text.toLowerCase())
         )
         setDataShow(dataFilter)
     }
@@ -50,11 +53,14 @@ const App = () => {
     return (
         <div>
             {/* <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1> */}
-            <Row style={{}}>
+            <Row style={{ paddingTop: 12 }}>
                 <Col style={{ flex: 1 }} />
                 <Col style={{ width: 300 }}>
                     <Row>
                         <Button
+                            style={{
+                                marginRight: 4
+                            }}
                             onClick={() => {
                                 navigate('prescription')
                             }}
@@ -69,7 +75,7 @@ const App = () => {
                             Danh sách đơn thuốc
                         </Button>
                     </Row>
-                    <Row style={{ marginBottom: 8 }}>
+                    <Row style={{ marginBottom: 8, marginTop: 12 }}>
                         <Input placeholder='Nhập để tìm kiếm...' onChange={handleInputSearch} />
                     </Row>
                     {dataShow.map((e) => (
@@ -87,7 +93,7 @@ const App = () => {
                                     width: 200
                                 }}
                             >
-                                {e?.tenThuoc}
+                                {e?.name}
                             </Col>
                             <Col style={{}}>{getPrice(e)}</Col>
                         </Row>

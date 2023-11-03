@@ -131,8 +131,8 @@ const PrescriptionsListScreen = () => {
 
     return (
         <div>
-            {/* <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1> */}
-            <Row>
+            <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1>
+            <Row style={{ display: 'flex', justifyContent: 'center' }}>
                 <Col>
                     <Row style={{ alignItems: 'center', marginBottom: 16 }}>
                         <Dropdown menu={{ items }}>
