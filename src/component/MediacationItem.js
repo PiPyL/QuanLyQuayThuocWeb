@@ -16,7 +16,7 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
     }
 
     useEffect(() => {
-        setQuantity(item?.quantity)
+        setQuantity(item?.quantity?.replace(/\s/g, '') + '')
         setPrice(item?.price)
     }, [item])
 

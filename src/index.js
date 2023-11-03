@@ -12,9 +12,15 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<App />} />
-                <Route path='/prescription' element={<CreatePrescriptionScreen />} />
-                <Route path='/prescription-list' element={<PrescriptionsListScreen />} />
+                <Route path='/QuanLyQuayThuocWeb' element={<App />} />
+                <Route
+                    path='/QuanLyQuayThuocWeb/prescription'
+                    element={<CreatePrescriptionScreen />}
+                />
+                <Route
+                    path='/QuanLyQuayThuocWeb/prescription-list'
+                    element={<PrescriptionsListScreen />}
+                />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

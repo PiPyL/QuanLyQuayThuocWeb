@@ -160,7 +160,9 @@ const PrescriptionsListScreen = () => {
                         }}
                     />
                 </Col>
-                <Col>{prescriptions && <EditPrescriptionScreen item={prescriptionSelected} />}</Col>
+                <Col>
+                    {prescriptionSelected && <EditPrescriptionScreen item={prescriptionSelected} />}
+                </Col>
             </Row>
         </div>
     )
