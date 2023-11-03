@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MediacationItem from './MediacationItem'
-import { Button, List, Modal, Row } from 'antd'
+import { Button, Col, List, Modal, Row } from 'antd'
 import MedicationInfoModel from '../models/MedicationInfoModel'
 import SearchMedicineView from './SearchMedicineView'
 import { getDatabase, set, ref, push } from 'firebase/database'
@@ -119,30 +119,40 @@ const CreatePrescriptionScreen = () => {
     return (
         <div>
             <h1 style={{ textAlign: 'center' }}>TẠO ĐƠN</h1>
-            <List
-                dataSource={medicationsInfo}
-                renderItem={(item, index) => (
-                    <MediacationItem
-                        item={item}
-                        index={index}
-                        onSelectMedication={() => onSelectMedication(index)}
-                        onInputedQuanity={(quantity) => onInputedQuanity(quantity, index)}
-                        onInputedPrice={(price) => onInputedPrice(price, index)}
-                    />
-                )}
-                grid={{ column: 4 }}
-                style={{ width: 216 * 4 }}
-            />
-            <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
-                Tổng tiền lời: <p style={{ marginLeft: 8 }}>{getTotalProfit()}</p>
-            </Row>
-            <Button
-                type='primary'
-                onClick={createPrescription}
-                style={{ display: 'block', margin: '0 auto', width: 100, marginBottom: 20 }}
+            <Row
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 12
+                }}
             >
-                Tạo đơn
-            </Button>
+                <Row style={{ alignItems: 'center', justifyContent: 'center', marginRight: 16 }}>
+                    Tổng tiền lời: <p style={{ marginLeft: 8 }}>{getTotalProfit()}</p>
+                </Row>
+                <Button
+                    type='primary'
+                    onClick={createPrescription}
+                    style={{ width: 100, marginBottom: 20 }}
+                >
+                    Tạo đơn
+                </Button>
+            </Row>
+            <Col style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <List
+                    dataSource={medicationsInfo}
+                    renderItem={(item, index) => (
+                        <MediacationItem
+                            item={item}
+                            index={index}
+                            onSelectMedication={() => onSelectMedication(index)}
+                            onInputedQuanity={(quantity) => onInputedQuanity(quantity, index)}
+                            onInputedPrice={(price) => onInputedPrice(price, index)}
+                        />
+                    )}
+                    grid={{ column: 4 }}
+                    style={{ width: 216 * 4 }}
+                />
+            </Col>
             <Modal
                 title='Chọn thuốc'
                 open={visible}

@@ -8,14 +8,9 @@ const UpdateMedicineView = ({ info }) => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
 
-    const getPrice = () => {
-        const prices = Object.values(info?.gia ?? [])
-        setPrice(prices[prices.length - 1])
-    }
-
     useEffect(() => {
-        setName(info?.tenThuoc)
-        getPrice()
+        setName(info?.name)
+        setPrice(info?.price)
     }, [info])
 
     const handleEditMedication = () => {
@@ -64,7 +59,17 @@ const UpdateMedicineView = ({ info }) => {
                 Cập nhật
             </Button>
             <p>Lịch sử giá</p>
-            {Object.values(info?.gia) > 0 &&
+            {info?.prices.length > 0 &&
+                info?.prices.map((e, index) => {
+                    return (
+                        <Row>
+                            {moment(new Date(Number(e?.createdAt))).format('DD/MM/yyyy')}
+                            {' - '}
+                            {Utils.formatVND(e?.price)}
+                        </Row>
+                    )
+                })}
+            {/* {Object.values(info?.price) > 0 &&
                 Object.values(info?.gia).map((e, index) => {
                     return (
                         <Row>
@@ -75,7 +80,7 @@ const UpdateMedicineView = ({ info }) => {
                             {Utils.formatVND(e)}
                         </Row>
                     )
-                })}
+                })} */}
         </Col>
     )
 }

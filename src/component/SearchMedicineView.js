@@ -7,10 +7,8 @@ const SearchMedicineView = ({ didSelectMedicine }) => {
 
     const handleSearchMedicines = (e) => {
         const text = e.target.value
-        console.log(text)
         const arr = AppManager.shared.medications.filter((e) => {
-            console.log(e?.name?.toLowerCase().includes(text.toLowerCase()) ? 1 : -1)
-            return e?.name?.toLowerCase().includes(text.toLowerCase()) ? 1 : -1
+            return e?.name?.toLowerCase().includes(text.toLowerCase())
         })
         setMedications([...arr])
     }
