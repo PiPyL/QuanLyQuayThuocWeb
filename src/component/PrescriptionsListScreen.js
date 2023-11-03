@@ -14,6 +14,7 @@ const PrescriptionsListScreen = () => {
     const [revenue, setRevenue] = useState(0)
     const [prescriptions, setPrescriptions] = useState([])
     const [prescriptionSelected, setPrescriptionSelected] = useState(null)
+    const [timeSelected, setTimeSelected] = useState(1)
     const isFirstOpen = useRef(true)
     const db = getDatabase()
     const items = [
@@ -31,7 +32,19 @@ const PrescriptionsListScreen = () => {
         }
     ]
 
+    const getTimeSelected = () => {
+        switch (timeSelected) {
+            case 0:
+                return 'Hôm nay'
+            case 1:
+                return 'Tháng này'
+            default:
+                return 'Tất cả'
+        }
+    }
+
     const handleData = (timeSelected) => {
+        setTimeSelected(timeSelected)
         const currentDate = new Date()
         let arr = []
         switch (timeSelected) {
@@ -124,7 +137,7 @@ const PrescriptionsListScreen = () => {
                     <Row style={{ alignItems: 'center', marginBottom: 16 }}>
                         <Dropdown menu={{ items }}>
                             <Button>
-                                Tháng này <DownOutlined />
+                                {getTimeSelected()} <DownOutlined />
                             </Button>
                         </Dropdown>
                         <Col style={{ marginLeft: 12 }}>
