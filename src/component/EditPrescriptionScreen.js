@@ -25,6 +25,17 @@ const EditPrescriptionScreen = ({ item }) => {
         return `${Utils.formatVND(total)}`
     }
 
+    const getTotal = () => {
+        let total = 0
+
+        medicationsInfo.forEach((item) => {
+            const a = item?.price * item?.quantity
+            total += isNaN(Number(a)) ? 0 : Number(a)
+        })
+
+        return `${Utils.formatVND(total)}`
+    }
+
     const updatePrescription = () => {
         let arr = medicationsInfo.filter((e) => {
             return (
@@ -159,6 +170,19 @@ const EditPrescriptionScreen = ({ item }) => {
                     <Typography style={{}}>
                         Ngày tạo: {moment(new Date(item?.thoiGianTao)).format('HH:mm DD/MM/YYYY')}
                     </Typography>
+                    <Row style={{ alignItems: 'center' }}>
+                        Tổng tiền:{' '}
+                        <Typography
+                            style={{
+                                marginLeft: 8,
+                                color: 'blue',
+                                fontWeight: 'bold',
+                                marginRight: 12
+                            }}
+                        >
+                            {getTotal()}
+                        </Typography>
+                    </Row>
                     <Row style={{ alignItems: 'center' }}>
                         Tổng tiền lời:{' '}
                         <Typography

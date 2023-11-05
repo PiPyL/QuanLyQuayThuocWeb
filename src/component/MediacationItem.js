@@ -8,11 +8,11 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
 
     const getProfit = () => {
         let profit = 0
-        if (item?.price && item?.medication?.price && item?.quantity) {
-            profit = item?.price * item?.quantity - item?.medication?.price * item?.quantity
-        }
+        // if (item?.price && item?.medication?.price && Number(item?.quantity)) {
+        profit = item?.price * item?.quantity - item?.medication?.price * item?.quantity
+        // }
 
-        return profit
+        return isNaN(profit) ? 0 : profit
     }
 
     useEffect(() => {
@@ -65,7 +65,10 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
                     }}
                 />
             </Row>
-            <div style={{ marginTop: '6px', color: getProfit() >= 0 ? 'green' : 'red' }}>
+            <Typography style={{ marginTop: 6 }}>
+                Tổng tiền: {Utils.formatVND(quantity * price)}
+            </Typography>
+            <div style={{ color: getProfit() >= 0 ? 'green' : 'red' }}>
                 Tiền lời: {Utils.formatVND(getProfit())}
             </div>
             <Row style={{ height: 1, background: '#c5c6c7', marginBottom: 10, marginTop: 4 }} />
