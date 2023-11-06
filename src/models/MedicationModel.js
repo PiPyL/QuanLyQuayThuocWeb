@@ -2,11 +2,12 @@ export default class MedicationModel {
     prices: Array = []
     price: number
     name: string
+    cost: String
 
     constructor(dict: any, key: string) {
         this.id = dict?.id
         this.name = dict?.tenThuoc
-
+        this.cost = dict?.giaBan
         const time = Object.keys(dict?.gia ?? [])
             .sort()
             .reverse()

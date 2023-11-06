@@ -152,6 +152,13 @@ const EditPrescriptionScreen = ({ item }) => {
 
         let arr = [...medicationsInfo]
         arr[indexSelected] = medication
+
+        arr.forEach((e) => {
+            if (e?.name) {
+                console.log(e)
+            }
+        })
+
         setMedicationsInfo(arr)
 
         setIndexSelected(null)

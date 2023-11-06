@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MediacationItem from './MediacationItem'
-import { Button, Col, List, Modal, Row } from 'antd'
+import { Button, Col, List, Modal, Row, Typography } from 'antd'
 import MedicationInfoModel from '../models/MedicationInfoModel'
 import SearchMedicineView from './SearchMedicineView'
 import { getDatabase, set, ref, push } from 'firebase/database'
@@ -123,17 +123,20 @@ const CreatePrescriptionScreen = () => {
                 style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginBottom: 12
+                    marginBottom: 16
                 }}
             >
-                <Row style={{ alignItems: 'center', justifyContent: 'center', marginRight: 16 }}>
-                    Tổng tiền lời: <p style={{ marginLeft: 8 }}>{getTotalProfit()}</p>
-                </Row>
-                <Button
-                    type='primary'
-                    onClick={createPrescription}
-                    style={{ width: 100, marginBottom: 20 }}
+                <Row
+                    style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: 16
+                    }}
                 >
+                    Tổng tiền lời:{' '}
+                    <Typography style={{ marginLeft: 8 }}>{getTotalProfit()}</Typography>
+                </Row>
+                <Button type='primary' onClick={createPrescription} style={{ width: 100 }}>
                     Tạo đơn
                 </Button>
             </Row>

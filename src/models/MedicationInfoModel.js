@@ -27,8 +27,12 @@ export default class MedicationInfoModel {
     }
 
     setMedication(medication) {
+        // this.medication = medication
         this.name = medication?.name ?? ''
         this.medication = medication
+        if (this.price == '' || this.price == null || this.price == undefined) {
+            this.price = Number(medication?.cost) ?? this.price
+        }
     }
 
     setPrice(price) {

@@ -3,6 +3,14 @@ import React, { useEffect, useState } from 'react'
 import Utils from '../controler/Utils'
 
 const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, onInputedPrice }) => {
+    if (item?.name) {
+        console.log('oooooooooo')
+        console.log(item?.name)
+        console.log('price: ', item?.price)
+    }
+
+    // const [quantity, setQuantity] = useState('')
+    // const [price, setPrice] = useState('')
     const [quantity, setQuantity] = useState(item?.quantity ?? '')
     const [price, setPrice] = useState(item?.price ?? '')
 
@@ -17,8 +25,8 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
 
     useEffect(() => {
         setQuantity(Number(item?.quantity))
-        setPrice(item?.price)
-    }, [item])
+        setPrice(Number(item?.price))
+    }, [item?.name, item?.quantity, item?.price])
 
     return (
         <Col style={{ width: 200, marginLeft: 16 }}>

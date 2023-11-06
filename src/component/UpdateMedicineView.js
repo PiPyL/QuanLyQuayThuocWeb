@@ -7,10 +7,12 @@ import Utils from '../controler/Utils'
 const UpdateMedicineView = ({ info }) => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
+    const [cost, setCost] = useState('')
 
     useEffect(() => {
         setName(info?.name)
         setPrice(info?.price)
+        setCost(info?.cost)
     }, [info])
 
     const handleEditMedication = () => {
@@ -32,17 +34,34 @@ const UpdateMedicineView = ({ info }) => {
             update(newRef, {
                 [new Date().getTime()]: Number(price)
             }).then(() => {
+                console.log('nameeeee')
                 if (name !== info?.name) {
                     const nameRef = ref(db, `/danhSachThuoc/${info?.id}`)
                     update(nameRef, { tenThuoc: name })
                 }
+                console.log('costttttt')
+                if (cost !== info?.cost) {
+                    const nameRef = ref(db, `/danhSachThuoc/${info?.id}`)
+                    update(nameRef, { giaBan: cost })
+                }
             })
+            return
         }
 
-        if (name !== info?.name) {
-            const nameRef = ref(db, `/danhSachThuoc/${info?.id}`)
-            update(nameRef, { tenThuoc: name })
+        const nameRef = ref(db, `/danhSachThuoc/${info?.id}`)
+        let data = {}
+        if (name != info?.name) {
+            data = {
+                tenThuoc: name
+            }
         }
+        if (cost != info?.cost) {
+            data = {
+                ...data,
+                giaBan: cost
+            }
+        }
+        update(nameRef, data)
     }
 
     return (
@@ -53,6 +72,12 @@ const UpdateMedicineView = ({ info }) => {
                 value={price}
                 placeholder='Giá thuốc'
                 onChange={(e) => setPrice(e.target.value)}
+                style={{ marginTop: 8 }}
+            />
+            <Input
+                value={cost}
+                placeholder='Giá bán'
+                onChange={(e) => setCost(e.target.value)}
                 style={{ marginTop: 8 }}
             />
             <Button onClick={handleEditMedication} style={{ color: 'red', marginTop: 8 }}>
