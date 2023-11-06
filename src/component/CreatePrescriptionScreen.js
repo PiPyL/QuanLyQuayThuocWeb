@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import MediacationItem from './MediacationItem'
-import { Button, Col, List, Modal, Row, Typography } from 'antd'
+import { Button, Col, DatePicker, List, Modal, Row, Typography } from 'antd'
 import MedicationInfoModel from '../models/MedicationInfoModel'
 import SearchMedicineView from './SearchMedicineView'
 import { getDatabase, set, ref, push } from 'firebase/database'
 import Utils from '../controler/Utils'
+import locale from 'antd/es/date-picker/locale/vi_VN'
+import moment from 'moment'
+import dayjs from 'dayjs'
 
 const CreatePrescriptionScreen = () => {
     const [medicationsInfo, setMedicationsInfo] = useState([])
     const [indexSelected, setIndexSelected] = useState(null)
     const [visible, setVisible] = useState(false)
+    const [date, setDate] = useState(null)
 
     const getTotalProfit = () => {
         let total = 0
@@ -53,8 +57,9 @@ const CreatePrescriptionScreen = () => {
         const databaseRef = ref(db, 'donThuoc')
         const newRef = push(databaseRef)
 
+        const selectedDate = new Date(date.toISOString()).getTime()
         let data = {
-            thoiGianTao: new Date().getTime(),
+            thoiGianTao: selectedDate,
             danhSachThuoc: medications,
             id: newRef.key
         }
@@ -118,7 +123,18 @@ const CreatePrescriptionScreen = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>TẠO ĐƠN</h1>
+            {/* <h1 style={{ textAlign: 'center' }}>TẠO ĐƠN</h1> */}
+            <Row style={{ justifyContent: 'center', marginBottom: 16 }}>
+                <DatePicker
+                    placeholder='Chọn ngày'
+                    defaultValue={dayjs(new Date())}
+                    onChange={(date, dateString) => {
+                        if (date) {
+                            setDate(date)
+                        }
+                    }}
+                />
+            </Row>
             <Row
                 style={{
                     justifyContent: 'center',

@@ -52,7 +52,7 @@ const App = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1>
+            {/* <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1> */}
             <Row style={{ paddingTop: 12 }}>
                 <Col style={{ flex: 1 }} />
                 <Col style={{ width: 300 }}>

@@ -3,14 +3,6 @@ import React, { useEffect, useState } from 'react'
 import Utils from '../controler/Utils'
 
 const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, onInputedPrice }) => {
-    if (item?.name) {
-        console.log('oooooooooo')
-        console.log(item?.name)
-        console.log('price: ', item?.price)
-    }
-
-    // const [quantity, setQuantity] = useState('')
-    // const [price, setPrice] = useState('')
     const [quantity, setQuantity] = useState(item?.quantity ?? '')
     const [price, setPrice] = useState(item?.price ?? '')
 
@@ -55,7 +47,6 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
                     placeholder='SL'
                     value={quantity}
                     onChange={(e) => {
-                        console.log(e.target.value)
                         onInputedQuanity(e.target.value)
                         setQuantity(e.target.value)
                     }}
@@ -67,7 +58,6 @@ const MediacationItem = ({ item, index, onSelectMedication, onInputedQuanity, on
                     type='number'
                     value={String(price ?? '')}
                     onChange={(e) => {
-                        console.log(e.target.value)
                         onInputedPrice(e.target.value)
                         setPrice(e.target.value)
                     }}

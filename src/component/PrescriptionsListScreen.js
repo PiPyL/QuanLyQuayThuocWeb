@@ -1,4 +1,4 @@
-import { Button, Col, Dropdown, List, Row, Typography } from 'antd'
+import { Button, Col, DatePicker, Dropdown, List, Row, Typography } from 'antd'
 import { getDatabase, onValue, ref } from 'firebase/database'
 import React, { useEffect, useRef, useState } from 'react'
 import PrescriptionItem from './PrescriptionItem'
@@ -7,6 +7,7 @@ import { DownOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import CreatePrescriptionScreen from './CreatePrescriptionScreen'
 import EditPrescriptionScreen from './EditPrescriptionScreen'
+import locale from 'antd/es/date-picker/locale/vi_VN'
 
 const PrescriptionsListScreen = () => {
     const [allPrescriptions, setAllPrescriptions] = useState([])
@@ -15,6 +16,7 @@ const PrescriptionsListScreen = () => {
     const [prescriptions, setPrescriptions] = useState([])
     const [prescriptionSelected, setPrescriptionSelected] = useState(null)
     const [timeSelected, setTimeSelected] = useState(1)
+    const [monthSelected, setMonthSelected] = useState(null)
     const isFirstOpen = useRef(true)
     const db = getDatabase()
     const items = [
@@ -76,6 +78,22 @@ const PrescriptionsListScreen = () => {
         setPrescriptions(arr)
     }
 
+    const handleDataWithMonthSelected = (monthSelected) => {
+        if (!monthSelected) {
+            return
+        }
+        console.log(moment(new Date(monthSelected)).format('MM/yyyy'))
+        console.log(allPrescriptions.length)
+        const arr = allPrescriptions.filter((e) => {
+            return (
+                moment(new Date(monthSelected)).format('MM/yyyy') ==
+                moment(new Date(e?.thoiGianTao)).format('MM/yyyy')
+            )
+        })
+        console.log(arr.length)
+        setPrescriptions(arr)
+    }
+
     const getPrecriptionList = () => {
         const starCountRef = ref(db, 'donThuoc')
         onValue(starCountRef, (snapshot) => {
@@ -131,15 +149,25 @@ const PrescriptionsListScreen = () => {
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1>
+            {/* <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1> */}
             <Row style={{ display: 'flex', justifyContent: 'center' }}>
                 <Col>
                     <Row style={{ alignItems: 'center', marginBottom: 16 }}>
-                        <Dropdown menu={{ items }}>
-                            <Button>
-                                {getTimeSelected()} <DownOutlined />
-                            </Button>
-                        </Dropdown>
+                        <Col>
+                            <Dropdown menu={{ items }}>
+                                <Button>
+                                    {getTimeSelected()} <DownOutlined />
+                                </Button>
+                            </Dropdown>
+                            <DatePicker
+                                locale={locale}
+                                picker='month'
+                                onChange={(e) => handleDataWithMonthSelected(e)}
+                                style={{
+                                    marginLeft: 8
+                                }}
+                            />
+                        </Col>
                         <Col style={{ marginLeft: 12 }}>
                             <Row style={{ alignItems: 'center' }}>
                                 Tổng tiền đã bán:
