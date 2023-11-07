@@ -8,6 +8,7 @@ import moment from 'moment'
 import CreatePrescriptionScreen from './CreatePrescriptionScreen'
 import EditPrescriptionScreen from './EditPrescriptionScreen'
 import locale from 'antd/es/date-picker/locale/vi_VN'
+import SideBar from './SideBar'
 
 const PrescriptionsListScreen = () => {
     const [allPrescriptions, setAllPrescriptions] = useState([])
@@ -149,7 +150,7 @@ const PrescriptionsListScreen = () => {
 
     return (
         <div>
-            {/* <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1> */}
+            <h1 style={{ textAlign: 'center' }}>DANH SÁCH ĐƠN THUỐC</h1>
             <Row style={{ display: 'flex', justifyContent: 'center' }}>
                 <Col>
                     <Row style={{ alignItems: 'center', marginBottom: 16 }}>

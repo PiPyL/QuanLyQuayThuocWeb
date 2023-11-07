@@ -171,7 +171,7 @@ const EditPrescriptionScreen = ({ item }) => {
 
     return (
         <div>
-            {/* <h1 style={{ textAlign: 'center' }}>ĐƠN THUỐC</h1> */}
+            <h1 style={{ textAlign: 'center' }}>ĐƠN THUỐC</h1>
             <Row style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
                 <Col style={{ marginRight: 16 }}>
                     <Typography style={{}}>

@@ -8,6 +8,7 @@ import Utils from './controler/Utils.js'
 import AppManager from './controler/AppManager.js'
 import MedicationModel from './models/MedicationModel.js'
 import { useNavigate } from 'react-router-dom'
+import SideBar from './component/SideBar.js'
 
 const App = () => {
     const [data, setData] = useState([])
@@ -56,13 +57,13 @@ const App = () => {
             <Row style={{ paddingTop: 12 }}>
                 <Col style={{ flex: 1 }} />
                 <Col style={{ width: 360 }}>
-                    <Row>
+                    {/* <Row>
                         <Button
                             style={{
                                 marginRight: 4
                             }}
                             onClick={() => {
-                                navigate('prescription')
+                                navigate('/')
                             }}
                         >
                             Tạo đơn thuốc
@@ -74,7 +75,7 @@ const App = () => {
                         >
                             Danh sách đơn thuốc
                         </Button>
-                    </Row>
+                    </Row> */}
                     <Row style={{ marginBottom: 8, marginTop: 12 }}>
                         <Input placeholder='Nhập để tìm kiếm...' onChange={handleInputSearch} />
                     </Row>
@@ -98,7 +99,7 @@ const App = () => {
                                 {index + 1} - {e?.name}
                             </Col>
                             <Col style={{}}>
-                                {getPrice(e)} - {e?.cost}
+                                {getPrice(e)} - {e?.cost ? Utils.formatVND(e?.cost) : ''}
                             </Col>
                         </Row>
                     ))}

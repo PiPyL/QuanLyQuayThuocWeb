@@ -3,11 +3,14 @@ import MediacationItem from './MediacationItem'
 import { Button, Col, DatePicker, List, Modal, Row, Typography } from 'antd'
 import MedicationInfoModel from '../models/MedicationInfoModel'
 import SearchMedicineView from './SearchMedicineView'
-import { getDatabase, set, ref, push } from 'firebase/database'
+import { getDatabase, set, ref, push, get } from 'firebase/database'
 import Utils from '../controler/Utils'
 import locale from 'antd/es/date-picker/locale/vi_VN'
 import moment from 'moment'
 import dayjs from 'dayjs'
+import SideBar from './SideBar'
+import AppManager from '../controler/AppManager'
+import MedicationModel from '../models/MedicationModel'
 
 const CreatePrescriptionScreen = () => {
     const [medicationsInfo, setMedicationsInfo] = useState([])
@@ -69,7 +72,7 @@ const CreatePrescriptionScreen = () => {
             .catch((err) => console.log(err))
     }
 
-    const setDefaultData = () => {
+    const setDefaultData = async () => {
         console.log('reset data')
         setMedicationsInfo([])
         let arr = []
@@ -78,6 +81,18 @@ const CreatePrescriptionScreen = () => {
             arr.push(model)
         }
         setMedicationsInfo([...arr])
+
+        const db = getDatabase()
+        const newRef = ref(db, '/danhSachThuoc')
+        if (AppManager.shared.medications.length == 0) {
+            const snapshot = await get(newRef)
+            let data = Object.values(snapshot.val() ?? [])
+            data = data.sort((a, b) =>
+                a?.tenThuoc.toLowerCase() > b?.tenThuoc.toLowerCase() ? 1 : -1
+            )
+            const models = Object.values(data).map((e) => new MedicationModel(e))
+            AppManager.shared.medications = models
+        }
     }
 
     const onSelectMedication = (index) => {
@@ -123,7 +138,7 @@ const CreatePrescriptionScreen = () => {
 
     return (
         <div>
-            {/* <h1 style={{ textAlign: 'center' }}>TẠO ĐƠN</h1> */}
+            <h1 style={{ textAlign: 'center' }}>TẠO ĐƠN</h1>
             <Row style={{ justifyContent: 'center', marginBottom: 16 }}>
                 <DatePicker
                     placeholder='Chọn ngày'
