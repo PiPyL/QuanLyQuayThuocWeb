@@ -52,10 +52,10 @@ const App = () => {
 
     return (
         <div>
-            {/* <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1> */}
+            <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1>
             <Row style={{ paddingTop: 12 }}>
                 <Col style={{ flex: 1 }} />
-                <Col style={{ width: 300 }}>
+                <Col style={{ width: 360 }}>
                     <Row>
                         <Button
                             style={{
@@ -78,14 +78,16 @@ const App = () => {
                     <Row style={{ marginBottom: 8, marginTop: 12 }}>
                         <Input placeholder='Nhập để tìm kiếm...' onChange={handleInputSearch} />
                     </Row>
-                    {dataShow.map((e) => (
+                    {dataShow.map((e, index) => (
                         <Row
                             onClick={() => {
                                 setMedicineSelected(e)
                             }}
                             style={{
                                 height: 30,
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                background: medicineSelected?.name == e?.name ? '#c9c9c9' : 'white',
+                                paddingLeft: 16
                             }}
                         >
                             <Col
@@ -93,14 +95,17 @@ const App = () => {
                                     width: 200
                                 }}
                             >
-                                {e?.name}
+                                {index + 1} - {e?.name}
                             </Col>
-                            <Col style={{}}>{getPrice(e)}</Col>
+                            <Col style={{}}>
+                                {getPrice(e)} - {e?.cost}
+                            </Col>
                         </Row>
                     ))}
                 </Col>
                 <Col style={{ width: 300, marginLeft: 20 }}>
                     <AddMedicineView />
+                    <Row style={{ height: 0 }} />
                     {medicineSelected && <UpdateMedicineView info={medicineSelected} />}
                 </Col>
                 <Col style={{ flex: 1 }} />
