@@ -36,7 +36,7 @@ const AddMedicineView = () => {
         }
 
         set(newRef, data)
-            .then(() => alert('Thêm thuốc mới thành công!'))
+            // .then(() => alert('Thêm thuốc mới thành công!'))
             .catch((e) => console.log(e))
 
         setName('')

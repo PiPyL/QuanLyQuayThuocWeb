@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { database } from './firebase.js'
-import { getDatabase, ref, onValue } from 'firebase/database'
-import { Button, Col, Input, Row } from 'antd'
+import { getDatabase, ref, onValue, remove } from 'firebase/database'
+import { Button, Col, Input, Modal, Row } from 'antd'
 import AddMedicineView from './component/AddMedicineView.js'
 import UpdateMedicineView from './component/UpdateMedicineView.js'
 import Utils from './controler/Utils.js'
@@ -9,11 +9,13 @@ import AppManager from './controler/AppManager.js'
 import MedicationModel from './models/MedicationModel.js'
 import { useNavigate } from 'react-router-dom'
 import SideBar from './component/SideBar.js'
+import { CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
 
 const App = () => {
     const [data, setData] = useState([])
     const [dataShow, setDataShow] = useState([])
     const [medicineSelected, setMedicineSelected] = useState(null)
+    const [isShowDeleteAlert, setIsShowDeleteAlert] = useState(false)
     const db = getDatabase()
     const navigate = useNavigate()
 
@@ -32,6 +34,22 @@ const App = () => {
             setDataShow(models)
         })
     }, [])
+
+    const handleDeleteMedication = () => {
+        if (!medicineSelected?.id) {
+            return
+        }
+        const databaseRef = ref(db, 'danhSachThuoc/' + medicineSelected?.id)
+        remove(databaseRef)
+            .then(() => {
+                setIsShowDeleteAlert(false)
+                // alert('Xóa thành công!')
+            })
+            .catch((err) => {
+                setIsShowDeleteAlert(false)
+                alert('Xóa không thành công!')
+            })
+    }
 
     const getPrice = (info) => {
         // const prices = Object.values(info?.pri ?? [])
@@ -56,7 +74,7 @@ const App = () => {
             <h1 style={{ textAlign: 'center' }}>NHÀ THUỐC PHAN HƯƠNG</h1>
             <Row style={{ paddingTop: 12 }}>
                 <Col style={{ flex: 1 }} />
-                <Col style={{ width: 360 }}>
+                <Col style={{ width: 450 }}>
                     {/* <Row>
                         <Button
                             style={{
@@ -91,6 +109,10 @@ const App = () => {
                                 paddingLeft: 16
                             }}
                         >
+                            <CloseCircleOutlined
+                                style={{ paddingRight: 8, fontSize: 16, color: 'gray' }}
+                                onClick={setIsShowDeleteAlert}
+                            />
                             <Col
                                 style={{
                                     width: 200
@@ -111,6 +133,16 @@ const App = () => {
                 </Col>
                 <Col style={{ flex: 1 }} />
             </Row>
+            <Modal
+                title='Thông báo'
+                open={isShowDeleteAlert}
+                onOk={handleDeleteMedication}
+                onCancel={() => setIsShowDeleteAlert(false)}
+                okText='Xóa'
+                cancelText='Hủy'
+            >
+                <p>Bạn có muốn xóa thuốc {medicineSelected?.name} khỏi danh sách!</p>
+            </Modal>
         </div>
     )
 }
